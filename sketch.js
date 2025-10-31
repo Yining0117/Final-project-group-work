@@ -11,4 +11,9 @@ const rawPoints = [
   {x:600, y:750}
 ];
 
+let branch = [];
 
+function setup(){
+  createCanvas(height,width);
+  background(100,100,100);
+}

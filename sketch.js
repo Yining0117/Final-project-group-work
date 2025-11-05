@@ -23,13 +23,12 @@ class Segment{
   draw(){
     stroke(0);
     strokeWeight(5)
-    //branches' color(数值的颜色和粗细)
+    // ↑ branches' color(数值的颜色和粗细，之后做动画的时候可以调整)
     line(this.x1,this.y1,this.x2,this.y2);
   }
 }
 function setup() {
   createCanvas(DESIGN_W, DESIGN_H);   
-  background(220);
 
   branches.push(new Segment(125, 0, 125, 200));
   branches.push(new Segment(175, 200, 125, 200));

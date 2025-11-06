@@ -6,7 +6,7 @@ let apples = [];
 let gravity = 1;
 let gravityDirection = 1;
 let ground = 750;
-let top = 20;
+let topY = 20;
 
 class Segment{
   constructor(x1,y1,x2,y2){
@@ -53,6 +53,8 @@ class Apple {
     }else if (gravityDirection === -1 && this.y <=top){
       this.y = top;
       this.state = "landed";
+      this.dropSpeed = 0;
+      this.timer = 0;
     }
       else if (gravityDirection === -1){
       this.y = top;

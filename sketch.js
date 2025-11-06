@@ -7,6 +7,7 @@ let gravity = 0.2;
 let gravityDirection = 1;
 let ground = 750;
 let topY = 20;
+let noisePoints = [];
 
 class Segment{
   constructor(x1,y1,x2,y2){
@@ -85,6 +86,14 @@ function setup() {
   createCanvas(DESIGN_W, DESIGN_H); 
   frameRate(60);  
 
+  for (let i = 0; i < 4000; i++){
+    noisePoints.push({
+      x: random(0,width),
+      y: random(0,650),
+      c:[random(100,180), random(150,200), random(200,255), random(80,150)]
+    });
+  }
+
   branches.push(new Segment(125, 0, 125, 200));
   branches.push(new Segment(175, 200, 125, 200));
   branches.push(new Segment(175, 200, 175, 350));
@@ -127,7 +136,13 @@ function setup() {
 function draw(){
   //base background
   background(60,80,120);
+ 
   noStroke();
+  for (let p of noisePoints){
+    fill(p.c[0],p.c[1],p.c[2],p.c[3]);
+    rect(p.x, p.y, 2, 2);
+  }
+
   fill(40,140,90);
   rect(0,650,600,100);
   stroke(0);
@@ -156,6 +171,7 @@ function draw(){
   const startY = 625;
   const boxW = 350 / 6;
   const boxH = 75;
+
   for (let i = 0; i < 6; i++){
     fill(colors[i]);
     rect(startX + i * boxW, startY, boxW, boxH);
@@ -169,6 +185,7 @@ function draw(){
     color(240,210,60),
     color(40,160,100)
   ];
+
   for (let i = 0; i < 6; i++){
     let cx = startX + i * boxW + boxW / 2;
     let cy = startY + boxH;

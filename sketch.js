@@ -102,6 +102,11 @@ function setup() {
   branches.push(new Segment(125, 625, 475, 625));
   branches.push(new Segment(125, 625, 125, 700));
   branches.push(new Segment(475, 625, 475, 700));
+  branches.push(new Segment(80, 650, 80, 750));
+  branches.push(new Segment(190, 700, 190, 750));
+  branches.push(new Segment(300, 700, 300, 750));
+  branches.push(new Segment(410, 700, 410, 750));
+  branches.push(new Segment(520, 650, 520, 750));
   
 
   const appleSeeds = [

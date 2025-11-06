@@ -32,7 +32,7 @@ class Apple {
     this.color = color;
     this.state = "falling";
     this.dropSpeed = 0;
-    this.timer = 0;
+    this.timer = 0; 
   }
   reset(){
     //back to the tree.
@@ -53,13 +53,25 @@ class Apple {
     }else if (gravityDirection === -1 && this.y <=top){
       this.y = top;
       this.state = "landed";
-     }
-   }
- }
+    }
+      else if (gravityDirection === -1){
+      this.y = top;
+      this.dropSpeed = 0;
+      this.state = "landed";
+      this.timer = 0;
+      }  
+    }
+  }
+  draw(){
+    stroke(0,225,225);
+    fill(225,0,0);
+    ellipse(this.x,this.y,40,40);
+  }
 }
 
 function setup() {
-  createCanvas(DESIGN_W, DESIGN_H);   
+  createCanvas(DESIGN_W, DESIGN_H); 
+  frameRate(60);  
 
   branches.push(new Segment(125, 0, 125, 200));
   branches.push(new Segment(175, 200, 125, 200));
@@ -78,11 +90,44 @@ function setup() {
   branches.push(new Segment(125, 625, 475, 625));
   branches.push(new Segment(125, 625, 125, 700));
   branches.push(new Segment(475, 625, 475, 700));
+
+  const appleSeeds = [
+    { x:125, y:200, color:[220, 80, 80] },
+    { x:175, y:350, color:[240,140,60] },
+    { x:425, y:350, color:[220,120,120] },
+    { x:425, y:150, color:[230,90,140] },
+    { x:550, y:200, color:[200,90,90] },
+    { x:300, y:275, color:[250,120,90] },
+    { x:350, y:275, color:[210,100,150] },
+  ];
+
+  for (let S of appleSeeds){
+    apples.push(new Apple(S.x,S.y,S.color));
+  }
 }
 
 function draw(){
   background(220);
   for (let branch of branches ){
     branch.draw();
+  }
+
+  for (let A of apples){
+    A.update();
+    A.draw();
+  }
+  if(gravityDirection === 1){
+    text("");
+  }else{
+    text("");
+  }
+}
+
+function KeyPressed(){
+  if (key === " "){
+    gravityDirection *= -1;
+    for (let A of apples){
+      A.reset();
+    } 
   }
 }

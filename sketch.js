@@ -5,6 +5,8 @@ let branches = [];
 let apples = [];
 let gravity = 1;
 let gravityDirection = 1;
+let ground = 750;
+let top = 20;
 
 class Segment{
   constructor(x1,y1,x2,y2){
@@ -21,7 +23,7 @@ class Segment{
   }
 }
 
-class Apples{
+class Apple {
   constructor(x,y,color){
     this.stratX = x;
     this.stratY = y;
@@ -29,24 +31,31 @@ class Apples{
     this.y = y;
     this.color = color;
     this.state = "falling";
-
+    this.dropSpeed = 0;
+    this.timer = 0;
   }
   reset(){
     //back to the tree.
     this.x = this.stratX;
     this.y = this.stratY;
+    this.dropSpeed = 0;
     this.state = "falling";
-
+    this.timer = "0";
   }
   update(){
-    if(gravityDirection === 1 && this.y >= 750){
-      this.y = 750;
+    if (this.state ==="falling"){
+    this.dropSpeed +=gravity *gravityDirection;
+    this.y += this.dropSpeed;
+    
+    if(gravityDirection === 1 && this.y >= ground){
+      this.y = ground;
       this.state = "landed";
-    }else if (gravityDirection === -1 &&& this.y <=20){
-      this.y = 20;
+    }else if (gravityDirection === -1 && this.y <=top){
+      this.y = top;
       this.state = "landed";
-    }
-  }
+     }
+   }
+ }
 }
 
 function setup() {

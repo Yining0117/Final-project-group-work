@@ -3,7 +3,7 @@ const DESIGN_W = 600;
 
 let branches = [];
 let apples = [];
-let gravity = 1;
+let gravity = 0.2;
 let gravityDirection = 1;
 let ground = 750;
 let topY = 20;
@@ -15,6 +15,7 @@ class Segment{
     this.x2 = x2;
     this.y2 = y2;
   }
+  
   draw(){
     stroke(0);
     strokeWeight(5)
@@ -29,47 +30,54 @@ class Apple {
     this.stratY = y;
     this.x = x;
     this.y = y;
-    this.color = color;
-    this.state = "falling";
     this.dropSpeed = 0;
+    this.color = color;
+    this.state = "waiting";
     this.timer = 0; 
-  }
+  }     
   reset(){
     //back to the tree.
     this.x = this.stratX;
     this.y = this.stratY;
     this.dropSpeed = 0;
-    this.state = "falling";
-    this.timer = "0";
+    this.state = "waiting";
+    this.timer = 0;
   }
   update(){
-    if (this.state ==="falling"){
-    this.dropSpeed +=gravity *gravityDirection;
-    this.y += this.dropSpeed;
+    if (this.state ==="waiting"){
+      this.timer++;
+      if(this.timer > 120){
+        this.state = "falling";
+        this.timer = 0;
+      }
+    } else if (this.state ==="falling"){
+      this.dropSpeed += gravity * gravityDirection;
+      this.y += this.dropSpeed;
     
     if(gravityDirection === 1 && this.y >= ground){
       this.y = ground;
       this.state = "landed";
       this.dropSpeed = 0;
       this.timer = 0;
-    }else if (gravityDirection === -1 && this.y <=topY){
+    } else if (gravityDirection === -1 && this.y <=topY){
       this.y = topY;
       this.state = "landed";
       this.dropSpeed = 0;
       this.timer = 0;
     }
+  }
       else if (this.state === "landed"){
         this.timer++;
-        if(this.timer>=120){
+        if(this.timer > 120){
           this.reset();
         }
       }
     }
-  }
+  
   draw(){
     stroke(225,225,0);
     fill(this.color[0],this.color[1],this.color[2]);
-    ellipse(this.x,this.y,40,40);
+    ellipse(this.x, this.y, 40, 40);
   }
 }
 
@@ -112,30 +120,31 @@ function setup() {
 
 function draw(){
   background(220);
+
   for (let branch of branches ){
-    branch.draw();
+    branch.draw(); 
   }
 
-  for (let A of apples){
-    A.update();
-    A.draw();
+  for (let a of apples){
+    a.update();
+    a.draw();
   }
   
   noStroke();
   fill(50);
   textSize(25);
   if(gravityDirection === 1){
-    text("Press SPACE to change gravity (↓↓↓)",20,755);
+    text("Press SPACE to change gravity (↓↓↓)",20,785);
   }else{
-    text("Press SPACE to change gravity (↑↑↑)",20,755);
+    text("Press SPACE to change gravity (↑↑↑)",20,785);
   }
 }
 
-function KeyPressed(){
-  if (key === " "){
+function keyPressed(){
+  if (key === ' '){
     gravityDirection *= -1;
-    for (let A of apples){
-      A.reset();
+    for (let a of apples){
+      a.reset();
     } 
   }
 }

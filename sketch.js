@@ -50,23 +50,25 @@ class Apple {
     if(gravityDirection === 1 && this.y >= ground){
       this.y = ground;
       this.state = "landed";
-    }else if (gravityDirection === -1 && this.y <=top){
-      this.y = top;
+      this.dropSpeed = 0;
+      this.timer = 0;
+    }else if (gravityDirection === -1 && this.y <=topY){
+      this.y = topY;
       this.state = "landed";
       this.dropSpeed = 0;
       this.timer = 0;
     }
-      else if (gravityDirection === -1){
-      this.y = top;
-      this.dropSpeed = 0;
-      this.state = "landed";
-      this.timer = 0;
-      }  
+      else if (this.state === "landed"){
+        this.timer++;
+        if(this.timer>=120){
+          this.reset();
+        }
+      }
     }
   }
   draw(){
-    stroke(0,225,225);
-    fill(225,0,0);
+    stroke(225,225,0);
+    fill(this.color[0],this.color[1],this.color[2]);
     ellipse(this.x,this.y,40,40);
   }
 }
@@ -118,10 +120,14 @@ function draw(){
     A.update();
     A.draw();
   }
+  
+  noStroke();
+  fill(50);
+  textSize(25);
   if(gravityDirection === 1){
-    text("");
+    text("Press SPACE to change gravity (↓↓↓)",20,755);
   }else{
-    text("");
+    text("Press SPACE to change gravity (↑↑↑)",20,755);
   }
 }
 

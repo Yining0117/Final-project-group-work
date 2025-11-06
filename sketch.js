@@ -2,16 +2,7 @@ const DESIGN_H = 800;
 const DESIGN_W = 600;
 
 let branches = [];
-
-const rawPoints = [
-  {x:125, y:0},   {x:125, y:200}, {x:175, y:200}, {x:175, y:350},
-  {x:425, y:350}, {x:425, y:150}, {x:550, y:150}, {x:550, y:200},
-  {x:300, y:275}, {x:225, y:275}, {x:225, y:275}, {x:250, y:250},
-  {x:250, y:275}, {x:350, y:275}, {x:300, y:625}, {x:125, y:625},
-  {x:475, y:625}, {x:475, y:650}, {x:600, y:650}, {x:0,   y:650},
-  {x:125, y:650}, {x:125, y:700}, {x:475, y:700}, {x:0,   y:750},
-  {x:600, y:750}
-];
+let apples = [];
 
 class Segment{
   constructor(x1,y1,x2,y2){
@@ -27,6 +18,27 @@ class Segment{
     line(this.x1,this.y1,this.x2,this.y2);
   }
 }
+
+class Apples{
+  constructor(x,y,color){
+    this.stratX = x;
+    this.stratY = y;
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.state = "falling";
+
+  }
+  reset(){
+    //back to the tree.
+    this.x = this.stratX;
+    this.y = this.stratY;
+    this.state = "falling";
+
+  }
+
+}
+
 function setup() {
   createCanvas(DESIGN_W, DESIGN_H);   
 

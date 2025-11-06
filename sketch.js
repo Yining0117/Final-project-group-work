@@ -102,6 +102,7 @@ function setup() {
   branches.push(new Segment(125, 625, 475, 625));
   branches.push(new Segment(125, 625, 125, 700));
   branches.push(new Segment(475, 625, 475, 700));
+  
 
   const appleSeeds = [
     { x:125, y:200, color:[220, 80, 80] },
@@ -119,7 +120,83 @@ function setup() {
 }
 
 function draw(){
-  background(220);
+  //base background
+  background(60,80,120);
+  noStroke();
+  fill(40,140,90);
+  rect(0,650,600,100);
+  stroke(0);
+  strokeWeight(3);
+  noFill();
+  rect(0,650,600,100);
+  noStroke();
+
+  //yellow base
+  fill(240,210,60);
+  stroke(0);
+  strokeWeight(2.5);
+  rect(125,625,350,75);
+  noStroke();
+
+  //colorfull rects
+  const colors = [
+    color(240,210,60),
+    color(240,70,70),
+    color(40,160,100),
+    color(240,210,60),
+    color(40,160,100),
+    color(240,210,60)
+  ];
+  const startX = 125;
+  const startY = 625;
+  const boxW = 350 / 6;
+  const boxH = 75;
+  for (let i = 0; i < 6; i++){
+    fill(colors[i]);
+    rect(startX + i * boxW, startY, boxW, boxH);
+  }
+  
+  const bottomColors = [
+    color(40,160,100),
+    color(240,210,60),
+    color(240,70,70),
+    color(240,70,70),
+    color(240,210,60),
+    color(40,160,100)
+  ];
+  for (let i = 0; i < 6; i++){
+    let cx = startX + i * boxW + boxW / 2;
+    let cy = startY + boxH;
+    let r = boxW * 0.9;
+    fill(bottomColors[i]);
+    arc(cx, cy, r, r, PI, 0);
+  }
+
+  const topColors = [
+    color(40, 160, 100),
+    color(240, 70, 70),
+    color(40, 160, 100),
+    color(240, 70, 70)
+  ];
+  const topCenters = [
+    startX + boxW * 1.5,
+    startX + boxW * 2.5,
+    startX + boxW * 3.5,
+    startX + boxW * 4.5
+  ];
+  for (let i = 0; i < 4; i++){
+    let cx = topCenters[i];
+    let cy = startY;
+    let r = (i === 1 || i === 2) ? boxW * 0.7 : boxW * 0.9;
+    fill(topColors[i]);
+    arc(cx,cy,r,r,0,PI);
+  }
+
+  noStroke();
+  for (let i = 0; i < 300; i++){
+    fill(255,255,255,random(10,40));
+    rect(random(125,475),random(625,700), 1, 1);
+  }
 
   for (let branch of branches ){
     branch.draw(); 
@@ -131,12 +208,12 @@ function draw(){
   }
   
   noStroke();
-  fill(50);
+  fill(255);
   textSize(25);
   if(gravityDirection === 1){
-    text("Press SPACE to change gravity (↓↓↓)",20,785);
+    text("Press SPACE to change gravity (↑↑↑ )",20,785);
   }else{
-    text("Press SPACE to change gravity (↑↑↑)",20,785);
+    text("Press SPACE to change gravity (↓↓↓)",20,785);
   }
 }
 

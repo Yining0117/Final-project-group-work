@@ -3,6 +3,8 @@ const DESIGN_W = 600;
 
 let branches = [];
 let apples = [];
+let gravity = 1;
+let gravityDirection = 1;
 
 class Segment{
   constructor(x1,y1,x2,y2){
@@ -36,7 +38,15 @@ class Apples{
     this.state = "falling";
 
   }
-
+  update(){
+    if(gravityDirection === 1 && this.y >= 750){
+      this.y = 750;
+      this.state = "landed";
+    }else if (gravityDirection === -1 &&& this.y <=20){
+      this.y = 20;
+      this.state = "landed";
+    }
+  }
 }
 
 function setup() {

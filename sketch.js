@@ -20,8 +20,10 @@ class Segment{
   draw(){
     stroke(0);
     strokeWeight(5)
-    // ↑ branches' color(数值的颜色和粗细，之后做动画的时候可以调整)
-    line(this.x1,this.y1,this.x2,this.y2);
+    // ↑ branches' color
+    let offset = sin(frameCount *0.2 + this.y1 *0.5)*2;
+    line(this.x1 + offset, this.y1, this.x2 + offset, this.y2);
+    //let branches silghtly wave.
   }
 }
 
@@ -35,6 +37,10 @@ class Apple {
     this.color = color;
     this.state = "waiting";
     this.timer = 0; 
+
+    this.swayRate = random(1.0, 3.0);    
+    this.swaySpeed = random(0.5, 0.3); 
+    this.swayPhase = random(0, TWO_PI); 
   }     
   reset(){
     //back to the tree.
@@ -43,6 +49,7 @@ class Apple {
     this.dropSpeed = 0;
     this.state = "waiting";
     this.timer = 0;
+    this.swayPhase = random(0, TWO_PI);
   }
   update(){
     if (this.state ==="waiting"){
@@ -78,7 +85,15 @@ class Apple {
   draw(){
     stroke(225,225,0);
     fill(this.color[0],this.color[1],this.color[2]);
-    ellipse(this.x, this.y, 40, 40);
+    
+    let drawX = this.x;
+    let drawY = this.y;
+    if (this.state === "waiting") {
+      const t = frameCount * this.swaySpeed + this.swayPhase;
+      drawX += sin(t) * this.swayRate;}
+
+    
+      ellipse(drawX, drawY, 40, 40);
   }
 }
 
@@ -86,9 +101,9 @@ function setup() {
   createCanvas(DESIGN_W, DESIGN_H); 
   frameRate(60);  
 
-  for (let i = 0; i < 4000; i++){
+  for (let i = 0; i < 1000; i++){
     noisePoints.push({
-      x: random(0,width),
+      x: random(-100,width),
       y: random(0,650),
       c:[random(100,180), random(150,200), random(200,255), random(80,150)]
     });
@@ -140,7 +155,7 @@ function draw(){
   noStroke();
   for (let p of noisePoints){
     fill(p.c[0],p.c[1],p.c[2],p.c[3]);
-    rect(p.x, p.y, 2, 2);
+    rect(p.x, p.y, 100, 2);
   }
 
   fill(40,140,90);
@@ -237,6 +252,7 @@ function draw(){
   }else{
     text("Press SPACE to change gravity (↓↓↓)",20,785);
   }
+    text("- Let Newton be confused ! ! ! -",240,30);
 }
 
 function keyPressed(){

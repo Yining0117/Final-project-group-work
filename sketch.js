@@ -248,9 +248,9 @@ function draw(){
   fill(255);
   textSize(25);
   if(gravityDirection === 1){
-    text("Press SPACE to change gravity (↑↑↑ )",20,785);
+    text("Press SPACE to change gravity (now ↓ ↓ ↓)",20,785);
   }else{
-    text("Press SPACE to change gravity (↓↓↓)",20,785);
+    text("Press SPACE to change gravity (now ↑ ↑ ↑)",20,785);
   }
     text("- Let Newton be confused ! ! ! -",240,30);
 }

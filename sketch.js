@@ -119,6 +119,7 @@ function setup() {
   branches.push(new Segment(225, 275, 350, 275));
   branches.push(new Segment(250, 250, 250, 275));
   branches.push(new Segment(300, 275, 300, 625));
+  // ↑ 中间的树枝
   branches.push(new Segment(0, 650, 125, 650));
   branches.push(new Segment(0, 750, 600, 750));
   branches.push(new Segment(475, 650, 600, 650));

@@ -10,28 +10,26 @@ let topY = 20;
 let noisePoints = [];
 
 class Segment{
-  constructor(x1,y1,x2,y2,level){
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
+  constructor(x,y,length,angle,level){
+    this.x = x;
+    this.y = y;
+    this.length = length;
+    this.angle = angle;
+    this.level = level;
 
-    this.level = level || 2;
     if(this.level === 1){
-      this.thickness = 10;
+      this.thickness = 15;
     } else if(this.level === 2){
-      this.thickness = 5;
+      this.thickness = 8;
     } else {
-      this.thickness = 3;
+      this.thickness = 4;
     }
 
-    let angle = [
-      0,
-      radians(30),radians(-30),
-      radians(45),radians(-45),
-      radians(60),radians(-60),
-    ];
-    this.angleOffset = random(angle);
+    this.swayAmp = random(1,3);
+    this.swaySpeed = random(0.05,0.05);
+
+    this.x2 = this.x + cos(this.angle) * this.length;
+    this.y2 = this.y - sin(this.angle) * this.length;
   }
 
   
@@ -40,23 +38,12 @@ class Segment{
     // ↑ branches' color
     strokeWeight(this.thickness);
     
-    let dx = this.x2 - this.x1;
-    let dy = this.y2 - this.y1;
-    
-    let cosA = cos(this.angleOffset);
-    let sinA = sin(this.angleOffset);
+    let sway = sin(frameCount* this.swaySpeed + this.y * 0.05)* this.swayAmp;
 
-    let rx = dx* cosA - dy* sinA;
-    let ry = dx* sinA + dy* cosA;
+    let newX = this.x + cos(this.angle + radians(sway * 0.5)) * this.length;
+    let newY = this.y - sin(this.angle + radians(sway * 0.5)) * this.length;
 
-    let x1 = this.x1;
-    let y1 = this.y1;
-    let x2 = x1 + rx;
-    let y2 = y1 + ry; 
-
-    let sway = sin(frameCount *0.2 + this.y1 *0.5)*2;
-
-    line(x1 + sway, y1, x2 + sway, y2);
+    line(this.x, this.y, newX, newY);
     //let branches silghtly wave.
   }
 }
@@ -131,6 +118,23 @@ class Apple {
   }
 }
 
+function generateTree(x, y, length, angle, level){
+  if (length < 30){ 
+    return;
+  }
+
+  let branch = new Segment(x, y, length, angle, level);
+  branches.push(branch);
+
+  let angleOffset = random(radians(30),radians(90));
+
+  let endX = branch.x2;
+  let endY = branch.y2;
+
+  generateTree(endX, endY, length* 0.75, angle + angleOffset, level + 1);
+  generateTree(endX, endY, length* 0.75, angle - angleOffset, level + 1);
+}
+
 function setup() {
   createCanvas(DESIGN_W, DESIGN_H); 
   frameRate(60);  
@@ -138,35 +142,11 @@ function setup() {
   for (let i = 0; i < 1000; i++){
     noisePoints.push({
       x: random(-100,width),
-      y: random(0,650),
+      y: random(0, 650),
       c:[random(100,180), random(150,200), random(200,255), random(80,150)]
     });
   }
-
-  branches.push(new Segment(125, 0, 125, 200,1));
-  branches.push(new Segment(175, 200, 125, 200,1));
-  branches.push(new Segment(175, 200, 175, 350));
-  branches.push(new Segment(175, 350, 425, 350));
-  branches.push(new Segment(425, 350, 425, 150));
-  branches.push(new Segment(425, 150, 550, 200));
-  branches.push(new Segment(550, 200, 550, 150));
-  branches.push(new Segment(225, 275, 350, 275));
-  branches.push(new Segment(250, 250, 250, 275));
-  branches.push(new Segment(300, 275, 300, 625,1));
-  // ↑ 中间的树枝
-  branches.push(new Segment(0, 650, 125, 650));
-  branches.push(new Segment(0, 750, 600, 750));
-  branches.push(new Segment(475, 650, 600, 650));
-  branches.push(new Segment(125, 700, 475, 700));
-  branches.push(new Segment(125, 625, 475, 625));
-  branches.push(new Segment(125, 625, 125, 700));
-  branches.push(new Segment(475, 625, 475, 700));
-  branches.push(new Segment(80, 650, 80, 750));
-  branches.push(new Segment(190, 700, 190, 750));
-  branches.push(new Segment(300, 700, 300, 750));
-  branches.push(new Segment(410, 700, 410, 750));
-  branches.push(new Segment(520, 650, 520, 750));
-  
+  generateTree(300, 650, 120, -PI / 2, 1);
 
   const appleSeeds = [
     { x:125, y:200, color:[220, 80, 80] },
@@ -182,6 +162,7 @@ function setup() {
     apples.push(new Apple(S.x,S.y,S.color));
   }
 }
+
 
 function draw(){
   //base background

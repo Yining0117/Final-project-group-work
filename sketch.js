@@ -15,8 +15,8 @@ class Segment{
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
-    this.level = level || 2;
 
+    this.level = level || 2;
     if(this.level === 1){
       this.thickness = 10;
     } else if(this.level === 2){
@@ -37,10 +37,26 @@ class Segment{
   
   draw(){
     stroke(0);
-    strokeWeight(this.thickness);
     // ↑ branches' color
-    let offset = sin(frameCount *0.2 + this.y1 *0.5)*2;
-    line(this.x1 + offset, this.y1, this.x2 + offset, this.y2);
+    strokeWeight(this.thickness);
+    
+    let dx = this.x2 - this.x1;
+    let dy = this.y2 - this.y1;
+    
+    let cosA = cos(this.angleOffset);
+    let sinA = sin(this.angleOffset);
+
+    let rx = dx* cosA - dy* sinA;
+    let ry = dx* sinA + dy* cosA;
+
+    let x1 = this.x1;
+    let y1 = this.y1;
+    let x2 = x1 + rx;
+    let y2 = y1 + ry; 
+
+    let sway = sin(frameCount *0.2 + this.y1 *0.5)*2;
+
+    line(x1 + sway, y1, x2 + sway, y2);
     //let branches silghtly wave.
   }
 }
@@ -127,8 +143,8 @@ function setup() {
     });
   }
 
-  branches.push(new Segment(125, 0, 125, 200));
-  branches.push(new Segment(175, 200, 125, 200));
+  branches.push(new Segment(125, 0, 125, 200,1));
+  branches.push(new Segment(175, 200, 125, 200,1));
   branches.push(new Segment(175, 200, 175, 350));
   branches.push(new Segment(175, 350, 425, 350));
   branches.push(new Segment(425, 350, 425, 150));
@@ -136,7 +152,7 @@ function setup() {
   branches.push(new Segment(550, 200, 550, 150));
   branches.push(new Segment(225, 275, 350, 275));
   branches.push(new Segment(250, 250, 250, 275));
-  branches.push(new Segment(300, 275, 300, 625));
+  branches.push(new Segment(300, 275, 300, 625,1));
   // ↑ 中间的树枝
   branches.push(new Segment(0, 650, 125, 650));
   branches.push(new Segment(0, 750, 600, 750));

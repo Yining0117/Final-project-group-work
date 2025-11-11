@@ -122,10 +122,8 @@ class Apple {
 }
 
 function generateTree(x, y, length, angle, level){
-  if (length < 30){ 
-    return;
-  }
-
+  if (length < 40) return;
+  
   let branch = new Segment(x, y, length, angle, level);
   branches.push(branch);
 
@@ -133,6 +131,24 @@ function generateTree(x, y, length, angle, level){
 
   let endX = branch.x2;
   let endY = branch.y2;
+  
+  if (level >= 3 && random()<0.2){
+    let t = random(0.3,0.9);
+    let appleX = lerp(branch.x, branch.x2, t);
+    let appleY = lerp(branch.y, branch.y2, t);
+    let colorChoice = [
+      [240,70,70],
+      [240,140,60],
+      [220,120,120],
+      [230,90,140],
+      [250,120,90],
+      [210,100,150]
+    ];
+    let c = random(colorChoice);
+    apples.push(new Apple(appleX, appleY, c));
+  }
+  /*The transition from "if(level >= 3)" to "apples.push(new Apple(appleX, appleY, c));"
+  is entirely obtained by asking ChatGPT*/
 
   generateTree(endX, endY, length* 0.75, angle + angleOffset, level + 1);
   generateTree(endX, endY, length* 0.75, angle - angleOffset, level + 1);
@@ -145,26 +161,12 @@ function setup() {
 
   for (let i = 0; i < 1000; i++){
     noisePoints.push({
-      x: random(-1000,width),
+      x: random(-width- 1000, width+ 1000),
       y: random(0, 650),
       c:[random(100,180), random(150,200), random(200,255), random(80,150)]
     });
   }
   generateTree(300, 650, 200, PI / 2, 1);
-
-  const appleSeeds = [
-    { x:125, y:200, color:[220, 80, 80] },
-    { x:175, y:350, color:[240,140,60] },
-    { x:425, y:350, color:[220,120,120] },
-    { x:425, y:150, color:[230,90,140] },
-    { x:550, y:200, color:[200,90,90] },
-    { x:300, y:275, color:[250,120,90] },
-    { x:350, y:275, color:[210,100,150] },
-  ];
-
-  for (let S of appleSeeds){
-    apples.push(new Apple(S.x,S.y,S.color));
-  }
 }
 
 

@@ -10,16 +10,34 @@ let topY = 20;
 let noisePoints = [];
 
 class Segment{
-  constructor(x1,y1,x2,y2){
+  constructor(x1,y1,x2,y2,level){
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
+    this.level = level || 2;
+
+    if(this.level === 1){
+      this.thickness = 10;
+    } else if(this.level === 2){
+      this.thickness = 5;
+    } else {
+      this.thickness = 3;
+    }
+
+    let angle = [
+      0,
+      radians(30),radians(-30),
+      radians(45),radians(-45),
+      radians(60),radians(-60),
+    ];
+    this.angleOffset = random(angle);
   }
+
   
   draw(){
     stroke(0);
-    strokeWeight(5)
+    strokeWeight(this.thickness);
     // ↑ branches' color
     let offset = sin(frameCount *0.2 + this.y1 *0.5)*2;
     line(this.x1 + offset, this.y1, this.x2 + offset, this.y2);

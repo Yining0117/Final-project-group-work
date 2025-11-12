@@ -148,7 +148,7 @@ function generateTree(x, y, length, angle, level){
     apples.push(new Apple(appleX, appleY, c));
   }
   /*The transition from "if(level >= 3)" to "apples.push(new Apple(appleX, appleY, c));"
-  is entirely obtained by asking ChatGPT*/
+  is partly obtained by asking ChatGPT, The specific question-and-answer process will be placed in the appendix.*/
 
   generateTree(endX, endY, length* 0.75, angle + angleOffset, level + 1);
   generateTree(endX, endY, length* 0.75, angle - angleOffset, level + 1);

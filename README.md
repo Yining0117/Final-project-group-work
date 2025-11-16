@@ -1,4 +1,4 @@
-# Final-project-group-work
+## Final-project-group-work
 ### Our main division of labor is as follows:
 #### Yining Sun:
 In version1, locate the points where branches and apples are generated. In version2, create the graded generation of branches and the random generation of fruits. Organize and fine-tune the final code.
@@ -11,3 +11,7 @@ Responsible for the apple system, including generating apples with random positi
 #### Nuo Zhang:
 Responsible for the branch system. In version 1, recreated the tree branches based on the original artwork with slight sway animation. In version 2, redesigned the system to generate branches procedurally, adding multiple levels and random splitting so the tree forms new structures each time it runs.
 
+### Our group's cooperation form: 
+Discussing the production together through online and offline meetings.
+
+![Group metting](Assets/Group-meeting.jpg)

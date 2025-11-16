@@ -12,6 +12,6 @@ Responsible for the apple system, including generating apples with random positi
 Responsible for the branch system. In version 1, recreated the tree branches based on the original artwork with slight sway animation. In version 2, redesigned the system to generate branches procedurally, adding multiple levels and random splitting so the tree forms new structures each time it runs.
 
 ### Our group's cooperation form: 
-Discussing the production together through online and offline meetings.
+We discussed and worked together through both online and offline meetings.
 
 ![Group metting](Assets/Group-meeting.jpg)
